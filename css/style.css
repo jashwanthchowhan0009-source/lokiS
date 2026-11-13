@@ -173,6 +173,17 @@ h1, h2, h3 { font-family: var(--display); font-weight: 800; line-height: 0.98; l
 .dish .btn { width: 100%; }
 .menu-note { margin-top: 18px; font-size: 0.92rem; opacity: 0.8; }
 
+.ing { font-size: 0.92rem; opacity: 0.9; }
+.price { display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 14px; border-top: 2px solid currentColor; padding-top: 14px; }
+.price .eyebrow { width: 100%; }
+.price b { font: 800 3.4rem/0.9 var(--display); font-variant-numeric: tabular-nums; }
+.price s { font: 600 1.5rem/1 var(--display); opacity: 0.6; }
+.soon { margin-top: 28px; border: 2px dashed var(--ink); border-radius: 28px; padding: 24px 26px; display: grid; gap: 12px; }
+.soon .eyebrow { color: #007a3d; }
+.soon ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 10px; }
+.soon li { font: 800 1.4rem/1 var(--display); background: var(--ink); color: var(--lime); padding: 12px 18px 10px; border-radius: 999px; }
+.soon p { max-width: 70ch; font-size: 0.95rem; }
+
 /* why */
 .why { background: var(--cream); border-block: 1px solid var(--line); }
 .why-grid { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: clamp(28px, 6vw, 90px); align-items: start; }

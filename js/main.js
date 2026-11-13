@@ -5,9 +5,9 @@
   var PHONE = "919963603614";
   var EMAIL = "lokeshmallela91@gmail.com";
   var MENU = [
-    { id: "oats", name: "Oats Bowl", kcal: 350, protein: 15, fiber: 7 },
-    { id: "chia", name: "Chia Seeds Bowl", kcal: 300, protein: 12, fiber: 10 },
-    { id: "sandwich", name: "Protein Sandwich", kcal: 400, protein: 20, fiber: 6 }
+    { id: "oats", name: "Classic Oat Cloud", price: 59, orig: 69 },
+    { id: "fruit", name: "Fruit Fiesta", price: 79, orig: 89 },
+    { id: "sandwich", name: "Nutri Crunchwich", price: 49, orig: 59 }
   ];
   var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var $ = function (s, r) { return (r || document).querySelector(s); };
@@ -15,7 +15,9 @@
 
   function orderText(qty, name, note) {
     var lines = ["Hi Loki'S! I'd like to order:"];
-    MENU.forEach(function (m) { if (qty[m.id]) lines.push("• " + qty[m.id] + " x " + m.name); });
+    MENU.forEach(function (m) { if (qty[m.id]) lines.push("• " + qty[m.id] + " x " + m.name + " (₹" + m.price * qty[m.id] + ")"); });
+    var sum = MENU.reduce(function (a, m) { return a + qty[m.id] * m.price; }, 0);
+    lines.push("Total: ₹" + sum);
     if (name) lines.push("", "Name: " + name);
     if (note) lines.push("Note: " + note);
     return lines.join("\n");
@@ -35,8 +37,7 @@
     if (pre && qty.hasOwnProperty(pre)) qty[pre] = 1;
 
     var rows = MENU.map(function (m) {
-      return '<div class="order-row"><div><strong>' + m.name + "</strong><small>≈ " + m.kcal + " kcal · " + m.protein +
-        " g protein · " + m.fiber + ' g fiber</small></div><div class="stepper" role="group" aria-label="' + m.name + ' quantity">' +
+      return '<div class="order-row"><div><strong>' + m.name + "</strong><small>₹" + m.price + " launch price · was ₹" + m.orig + '</small></div><div class="stepper" role="group" aria-label="' + m.name + ' quantity">' +
         '<button type="button" data-step="-1" data-id="' + m.id + '" aria-label="One less ' + m.name + '">−</button>' +
         '<output id="' + p + "-" + m.id + '" aria-live="polite">' + qty[m.id] + "</output>" +
         '<button type="button" data-step="1" data-id="' + m.id + '" aria-label="One more ' + m.name + '">+</button></div></div>';
@@ -54,13 +55,13 @@
     var nameEl = $("#" + p + "-name", host), noteEl = $("#" + p + "-note", host);
 
     function render() {
-      var n = 0, k = 0, pr = 0, f = 0;
+      var n = 0, k = 0;
       MENU.forEach(function (m) {
-        var q = qty[m.id]; n += q; k += q * m.kcal; pr += q * m.protein; f += q * m.fiber;
+        var q = qty[m.id]; n += q; k += q * m.price;
         $("#" + p + "-" + m.id, host).textContent = q;
       });
       total.innerHTML = n
-        ? "<span><b>" + n + "</b> " + (n === 1 ? "item" : "items") + "</span><span>≈ <b>" + k + "</b> kcal</span><span><b>" + pr + " g</b> protein</span><span><b>" + f + " g</b> fiber</span>"
+        ? "<span><b>" + n + "</b> " + (n === 1 ? "item" : "items") + "</span><span>Total <b>₹" + k + "</b></span>"
         : "<span>Tap + to add a bowl</span>";
       var text = orderText(qty, nameEl.value.trim(), noteEl.value.trim());
       send.href = n ? waLink(text) : "#";
