@@ -1,0 +1,20 @@
+{
+  "name": "lokis-power-bowl",
+  "version": "1.0.0",
+  "description": "Website for Loki'S Power Bowl, Lokesh's healthy food stall in Anantapur",
+  "type": "module",
+  "scripts": {
+    "dev": "python3 -m http.server 8000",
+    "build": "echo 'No build step required for static site'",
+    "lint": "echo 'No linter configured'"
+  },
+  "keywords": [
+    "static",
+    "html"
+  ],
+  "author": "Lokesh",
+  "license": "ISC",
+  "dependencies": {
+    "@vercel/analytics": "^2.0.1"
+  }
+}
