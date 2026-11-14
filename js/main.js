@@ -6,7 +6,7 @@
   var EMAIL = "lokeshmallela91@gmail.com";
   var MENU = [
     { id: "oats", name: "Classic Oat Cloud", price: 59, orig: 69 },
-    { id: "fruit", name: "Fruit Fiesta", price: 79, orig: 89 },
+    { id: "fruit", name: "Fruit Fiesta", price: 69, orig: 89 },
     { id: "sandwich", name: "Nutri Crunchwich", price: 49, orig: 59 }
   ];
   var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
