@@ -13,12 +13,14 @@
   var $ = function (s, r) { return (r || document).querySelector(s); };
   var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
 
-  function orderText(qty, name, note) {
+  function orderText(qty, name, note, addr, loc) {
     var lines = ["Hi Loki'S! I'd like to order:"];
     MENU.forEach(function (m) { if (qty[m.id]) lines.push("• " + qty[m.id] + " x " + m.name + " (₹" + m.price * qty[m.id] + ")"); });
     var sum = MENU.reduce(function (a, m) { return a + qty[m.id] * m.price; }, 0);
     lines.push("Total: ₹" + sum);
     if (name) lines.push("", "Name: " + name);
+    if (addr) lines.push("Delivery address: " + addr);
+    if (loc) lines.push("Location: " + loc);
     if (note) lines.push("Note: " + note);
     return lines.join("\n");
   }
@@ -47,12 +49,24 @@
       '<form class="order" novalidate>' + (opts && opts.head ? opts.head : "") + rows +
       '<div class="order-total" id="' + p + '-total"></div>' +
       '<div class="field"><label for="' + p + '-name">Your name (optional)</label><input id="' + p + '-name" name="name" autocomplete="given-name" maxlength="60"></div>' +
+      '<div class="field"><label for="' + p + '-addr">Delivery address</label><textarea id="' + p + '-addr" rows="2" maxlength="300" autocomplete="street-address" placeholder="House no, street, area, landmark"></textarea></div>' +
+      '<div class="loc-row"><button type="button" class="btn btn-ghost loc-btn" id="' + p + '-locbtn">Share my location</button><span class="loc-status" id="' + p + '-locst" aria-live="polite"></span></div>' +
       '<div class="field"><label for="' + p + '-note">Anything Lokesh should know? (optional)</label><textarea id="' + p + '-note" name="note" rows="2" maxlength="240" placeholder="Pickup time, less sweet, no nuts…"></textarea></div>' +
       '<a class="btn btn-leaf" id="' + p + '-send" target="_blank" rel="noopener" href="#">Send order on WhatsApp</a>' +
       '<p class="order-alt">No WhatsApp? <a id="' + p + '-mail" href="#">Email the order</a> or <a href="tel:+' + PHONE + '">call 99636 03614</a>.</p></form>';
 
     var send = $("#" + p + "-send", host), mail = $("#" + p + "-mail", host), total = $("#" + p + "-total", host);
-    var nameEl = $("#" + p + "-name", host), noteEl = $("#" + p + "-note", host);
+    var nameEl = $("#" + p + "-name", host), noteEl = $("#" + p + "-note", host), addrEl = $("#" + p + "-addr", host);
+    var locBtn = $("#" + p + "-locbtn", host), locSt = $("#" + p + "-locst", host), loc = "";
+    locBtn.addEventListener("click", function () {
+      if (!navigator.geolocation) { locSt.textContent = "Location not supported. Type your address instead."; return; }
+      locSt.textContent = "Finding you…";
+      navigator.geolocation.getCurrentPosition(function (pos) {
+        loc = "https://maps.google.com/?q=" + pos.coords.latitude.toFixed(6) + "," + pos.coords.longitude.toFixed(6);
+        locSt.innerHTML = '✓ Location added. <a href="' + loc + '" target="_blank" rel="noopener">Check on map</a>';
+        locBtn.textContent = "Update location"; render();
+      }, function () { locSt.textContent = "Couldn't get location. Allow location access or type your address."; }, { enableHighAccuracy: true, timeout: 15000 });
+    });
 
     function render() {
       var n = 0, k = 0;
@@ -63,7 +77,7 @@
       total.innerHTML = n
         ? "<span><b>" + n + "</b> " + (n === 1 ? "item" : "items") + "</span><span>Total <b>₹" + k + "</b></span>"
         : "<span>Tap + to add a bowl</span>";
-      var text = orderText(qty, nameEl.value.trim(), noteEl.value.trim());
+      var text = orderText(qty, nameEl.value.trim(), noteEl.value.trim(), addrEl.value.trim(), loc);
       send.href = n ? waLink(text) : "#";
       mail.href = n ? mailLink(text) : "#";
       send.setAttribute("aria-disabled", n ? "false" : "true");

@@ -229,6 +229,9 @@ h1, h2, h3 { font-family: var(--display); font-weight: 800; line-height: 0.98; l
   font: 400 1rem/1.4 var(--sans); padding: 13px 14px 10px; border-radius: 14px; border: 2px solid var(--line); background: #fff; color: var(--ink); width: 100%; resize: vertical;
 }
 .field input:focus, .field textarea:focus { border-color: var(--ink); outline: none; }
+.loc-row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; }
+.loc-btn { min-height: 44px; padding: 11px 18px 8px; font-size: 0.8rem; color: var(--ink); }
+.loc-status { font-size: 0.88rem; }
 .order-alt { font-size: 0.9rem; text-align: center; }
 
 /* founder teaser */
