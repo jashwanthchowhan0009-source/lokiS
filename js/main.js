@@ -4,12 +4,13 @@
 
   var PHONE = "919963603614";
   var EMAIL = "lokeshmallela91@gmail.com";
+  var FREE = 111;
   var MENU = [
     { id: "oats", name: "Classic Oat Cloud", price: 59, orig: 69 },
     { id: "fruit", name: "Fruit Fiesta", price: 69, orig: 79 },
     { id: "sandwich", name: "Nutri Crunchwich", price: 49, orig: 59 },
     { id: "basil", name: "Basil Seeds Pudding", price: 59, orig: 69 },
-    { id: "rice", name: "Rice Cake", price: 19, orig: 29 },
+    { id: "rice", name: "Rice Cake", price: 29, orig: 49 },
     { id: "choco", name: "Choco Oats Bowl", price: 99, orig: 109 }
   ];
   var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -20,7 +21,7 @@
     var lines = ["Hi Loki'S! I'd like to order:"];
     MENU.forEach(function (m) { if (qty[m.id]) lines.push("• " + qty[m.id] + " x " + m.name + " (₹" + m.price * qty[m.id] + ")"); });
     var sum = MENU.reduce(function (a, m) { return a + qty[m.id] * m.price; }, 0);
-    lines.push("Total: ₹" + sum);
+    lines.push("Total: ₹" + sum + (sum >= FREE ? " (free packaging & delivery)" : ""));
     if (name) lines.push("", "Name: " + name);
     if (addr) lines.push("Delivery address: " + addr);
     if (loc) lines.push("Location: " + loc);
@@ -78,8 +79,9 @@
         $("#" + p + "-" + m.id, host).textContent = q;
       });
       total.innerHTML = n
-        ? "<span><b>" + n + "</b> " + (n === 1 ? "item" : "items") + "</span><span>Total <b>₹" + k + "</b></span>"
-        : "<span>Tap + to add a bowl</span>";
+        ? "<span><b>" + n + "</b> " + (n === 1 ? "item" : "items") + "</span><span>Total <b>₹" + k + "</b></span>" +
+          (k >= FREE ? "<span class=\"free ok\">✓ Free packaging &amp; delivery</span>" : "<span class=\"free\">Add ₹" + (FREE - k) + " more for free packaging &amp; delivery</span>")
+        : "<span>Tap + to add a bowl</span><span class=\"free\">Free packaging &amp; delivery above ₹" + FREE + "</span>";
       var text = orderText(qty, nameEl.value.trim(), noteEl.value.trim(), addrEl.value.trim(), loc);
       send.href = n ? waLink(text) : "#";
       mail.href = n ? mailLink(text) : "#";

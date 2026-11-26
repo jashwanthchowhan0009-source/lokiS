@@ -226,6 +226,8 @@ h1, h2, h3 { font-family: var(--display); font-weight: 800; line-height: 0.98; l
 .stepper output { min-width: 30px; text-align: center; font-weight: 700; font-variant-numeric: tabular-nums; padding-top: 3px; }
 .order-total { display: flex; flex-wrap: wrap; gap: 6px 18px; font-weight: 700; font-size: 0.86rem; letter-spacing: 0.08em; text-transform: uppercase; }
 .order-total b { color: #007a3d; font-variant-numeric: tabular-nums; }
+.order-total .free { width: 100%; color: #7a4a00; text-transform: none; letter-spacing: 0.02em; }
+.order-total .free.ok { color: #007a3d; }
 .field { display: grid; gap: 6px; }
 .field label { font-size: 0.74rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; }
 .field input, .field textarea {
