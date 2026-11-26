@@ -162,6 +162,9 @@ h1, h2, h3 { font-family: var(--display); font-weight: 800; line-height: 0.98; l
 .dish-oats { background: var(--oat); color: #3a2a06; }
 .dish-chia { background: var(--berry); color: #fbe9ef; }
 .dish-sand { background: var(--toast); color: #3b1703; }
+.dish-basil { background: #cfeec4; color: #12361f; }
+.dish-rice { background: #f6dfc0; color: #4a2a0a; }
+.dish-choco { background: #4a2a1a; color: #f8e9dc; }
 .dish-art { width: 100%; height: auto; border-radius: 50%; margin-top: -6px; }
 .dish { display: flex; flex-direction: column; }
 .dish .price { margin-top: auto; }
